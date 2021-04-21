@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin\News;
 use App\Models\M3Result;
+use http\Env;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -92,15 +93,38 @@ class NewsController extends Controller
      */
     public function update(Request $request, $id)
     {
+//        $data['src'] = \DB::table('NEWS')->where('id',$id)->first(['src'])->src;
+//        dd($data['src']);
 //        exit(222);
 //        dump(11111);
 //        echo($request->method());
         if ($request->method() == 'PATCH') {
-            News::find($id)->update($request->except(['_token', 'file', '_method']));
+            $data = $request->except(['_token','file', '_method']);
+            $data['src'] = $request->input('src');
+//            dump($data['src']);
+            if(!$data['src']){
+//                dump(111111111);
+                $data['src'] = \DB::table('NEWS')->where('id',$id)->first(['src'])->src;
+            }
+
+          News::find($id)->update($data);
+//          $new =  News::find($id);
+//          $new->name = $data['name'];
+//          $new->cate = $data['cate'];
+//          $new->subCate = $data['subCate'];
+//          $new->isShow = $data['isShow'];
+//          $new->isHot = $data['isHot'];
+//          $new->isRem = $data['isRem'];
+//          $new->site = $data['site'];
+//          $new->shot_cont = $data['shot_cont'];
+//          $new->src = $data['src'];
+//          $new->content = $data['content'];
+//           $new->save();
+            return redirect()->route('admin.news.index')->with('msg', '修改成功');
+
         }
 
         $data = $request->except("_token");
-//        dump($data);
         $key = array_keys($data)[0];
 
         if (News::find($id)->update($data)) {

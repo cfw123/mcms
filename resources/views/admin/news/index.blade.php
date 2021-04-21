@@ -140,16 +140,15 @@
                     }
                 });
                 var that = $(this);
-
+                var ids =that.parent().parent().find('td').html();
+               // alert(that.parent().parent().find('td').html());
                 uploader.on('uploadSuccess', function (file, res) {
                     that.attr('src', res.file);
                     var data = {};
                     data['src'] = res.file;
                     data['_token'] = "{{ csrf_token() }}";
                     //将td的内容修改为文本框的内容
-                    var id = "{{ $new->id }}";
-                    console.log(data);
-                    var url = '/admin/news/' + id;
+                    var url = '/admin/news/' + ids;
                     $.ajax({
 
                         url,

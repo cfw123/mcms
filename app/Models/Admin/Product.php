@@ -38,7 +38,7 @@ use App\Models\Base;
 class Product extends Base
 {
     //
-    protected $guarded = ['file'];
+//    protected $guarded = ['file'];
     public function getSrcAttribute($value) {
         return env('APP_URL').$value;
     }
